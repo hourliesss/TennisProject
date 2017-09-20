@@ -8,20 +8,22 @@ public class Player{
 	private String lastname;
 	private Date birthDate;
 	private ArrayList<Match> matchs;
-	private tabledehachage date classement forme;
+	private int health;
+	private int ranking;
 
 	public Player(String firstname, String lastname, Date birthDate){
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
-		value = new ArrayList<Match>();
-		forme a 0;
+		this.matchs = new ArrayList<Match>();
+		this.health = 100;
+		this.ranking = 50000;
 
 	}
 
 	
 	public String toString(){
-		return "Bonjour je m'appelle " + this.firstname + " " + this.lastname + " et je suis né le " + this.birthDate;
+		return "Bonjour je m'appelle " + this.firstname + " " + this.lastname + ". Je suis né le " + this.birthDate +". Je suis à " + this.health + "% de ma condition physique et mon ranking est : " + this.ranking;
 	}
 
 	public String getFirstname(){
