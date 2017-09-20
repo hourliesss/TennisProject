@@ -6,7 +6,6 @@ public class Tournament{
 	private Date begin;
 	private Date end;
 	private String name;
-	private Surface surface;
 	private Integer stageNumber;
 	private ArrayList<Player> participants;
 	private Category category;

@@ -1,5 +1,5 @@
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Player{
@@ -8,16 +8,14 @@ public class Player{
 	private String lastname;
 	private Date birthDate;
 	private ArrayList<Match> matchs;
-	private int health;
-	private int ranking;
+	private HashMap<Date,State> state;
 
 	public Player(String firstname, String lastname, Date birthDate){
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.matchs = new ArrayList<Match>();
-		this.health = 100;
-		this.ranking = 50000;
+		this.state = new ArrayList<State>();
 
 	}
 
