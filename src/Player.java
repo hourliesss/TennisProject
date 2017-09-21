@@ -26,6 +26,10 @@ public class Player {
         public void updateState(Calendar date, PlayerState state) {
             this.stateMap.put(date, state);
         }
+        
+        public PlayerState getState() {
+            return this.stateMap.lastEntry().getValue();
+        }
 	
 	public String toString(){
                 Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();

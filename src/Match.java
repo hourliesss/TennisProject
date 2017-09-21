@@ -9,9 +9,9 @@ public class Match {
 		private LinkedList<Integer> score2;
 		private Tournament tournament;
 		private Calendar date;
-		private Integer stage;
+		private int stage;
 
-		public Match(Player player1, Player player2, LinkedList<Integer> score1, LinkedList<Integer> score2, Tournament tournament, Calendar date, Integer stage){
+		public Match(Player player1, Player player2, LinkedList<Integer> score1, LinkedList<Integer> score2, Tournament tournament, Calendar date, int stage){
 			this.player1 = player1;
 			this.player2 = player2;
 			this.score1 = score1;
@@ -22,7 +22,26 @@ public class Match {
 		}
 
 		public String toString(){
-			return "Ce match qui s'est déroule le " + this.date + " à " + this.tournament.getName() + " lors du " + this.stage + " tour, " + " a opposé " + this.player1.getFirstname() + " à " + this.player2.getFirstname() + " lors du " + this.stage + "e tour";
+			return "Ce match qui s'est déroulé le " + this.date + " à " 
+                                + this.tournament.getName() + " lors du " + this.stage + 
+                                " tour, " + " a opposé " + this.player1.getFirstname() + 
+                                " à " + this.player2.getFirstname() + " lors du " + 
+                                this.stage + "e tour";
 		}
+                
+                public Player getWinner() {
+                    int count1 = 0;
+                    int count2 = 0;
+                    for (int i=0; i<this.score1.size(); i++) {
+                        if (this.score1.get(i) > this.score2.get(i))
+                            count1++;
+                        else
+                            count2++;
+                    }
+                    if (count1 > count2)
+                        return this.player1;
+                    else
+                        return this.player2;
+                }
 
 }

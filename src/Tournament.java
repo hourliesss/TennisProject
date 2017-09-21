@@ -7,7 +7,7 @@ public class Tournament{
 	private Calendar end;
 	private String name;
         private Surface surface;
-	private Integer stageNumber;
+	private int stageNumber;
 	private ArrayList<Player> participants;
 	private Category category;
 
