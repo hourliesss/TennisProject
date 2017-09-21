@@ -18,9 +18,9 @@ public class Player {
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.matchs = new ArrayList<>();
-                PlayerState state = new PlayerState(0, 100);
+                PlayerState initialState = new PlayerState(50000, 100);
 		this.stateMap = new TreeMap<>();
-                this.stateMap.put(new GregorianCalendar(1970,1,1), state);
+                this.stateMap.put(new GregorianCalendar(1970,1,1), initialState);
 	}
 
         public void updateState(Calendar date, PlayerState state) {
