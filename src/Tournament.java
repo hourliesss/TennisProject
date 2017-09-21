@@ -1,16 +1,16 @@
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Tournament{
 
-	private Date begin;
-	private Date end;
+	private Calendar begin;
+	private Calendar end;
 	private String name;
 	private Integer stageNumber;
 	private ArrayList<Player> participants;
 	private Category category;
 
-	public Tournament(Date begin, Date end, String name, Surface surface, Integer stageNumber, ArrayList<Player> participants, Category category){
+	public Tournament(Calendar begin, Calendar end, String name, Surface surface, Integer stageNumber, ArrayList<Player> participants, Category category){
 		this.begin = begin;
 		this.end = end;
 		this.name = name;

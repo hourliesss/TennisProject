@@ -1,5 +1,5 @@
 import java.util.LinkedList;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Match {
 
@@ -8,10 +8,10 @@ public class Match {
 		private LinkedList<Integer> score1;
 		private LinkedList<Integer> score2;
 		private Tournament tournament;
-		private Date date;
+		private Calendar date;
 		private Integer stage;
 
-		public Match(Player player1, Player player2, LinkedList<Integer> score1, LinkedList<Integer> score2, Tournament tournament, Date date, Integer stage){
+		public Match(Player player1, Player player2, LinkedList<Integer> score1, LinkedList<Integer> score2, Tournament tournament, Calendar date, Integer stage){
 			this.player1 = player1;
 			this.player2 = player2;
 			this.score1 = score1;

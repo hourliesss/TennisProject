@@ -1,6 +1,7 @@
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -8,25 +9,26 @@ public class Player {
 
 	private String firstname;
 	private String lastname;
-	private Date birthDate;
+	private Calendar birthDate;
 	private ArrayList<Match> matchs;
-	private TreeMap<Date,PlayerState> stateMap;
+	private TreeMap<Calendar,PlayerState> stateMap;
 
-	public Player(String firstname, String lastname, Date birthDate){
+	public Player(String firstname, String lastname, Calendar birthDate){
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
 		this.matchs = new ArrayList<>();
                 PlayerState state = new PlayerState(0, 100);
 		this.stateMap = new TreeMap<>();
+                this.stateMap.put(new GregorianCalendar(1970,1,1), state);
 	}
 
-        public void updateState(Date date, PlayerState state) {
+        public void updateState(Calendar date, PlayerState state) {
             this.stateMap.put(date, state);
         }
 	
 	public String toString(){
-                Entry<Date, PlayerState> currentEntry = this.stateMap.lastEntry();
+                Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();
                 double currentRanking = currentEntry.getValue().getRanking();
                 int currentHealth = currentEntry.getValue().getHealth();
 		return "Bonjour je m'appelle " + this.firstname + " " + this.lastname + 
