@@ -1,8 +1,0 @@
-public enum Category
-{
-    EAU,
-    ROCHE,
-    FORET,
-    TERRAIN_LIBRE,
-    HABITAT
-}
