@@ -43,5 +43,15 @@ public class Match {
                     else
                         return this.player2;
                 }
+                
+                /**
+                 *   Reveals the gap between the two players' scores
+                 *   formula : sum(scores(P1)) - sum(scores(P2))
+                 **/
+                public int getGap() {
+                    int sum1 = this.score1.stream().mapToInt(Integer::intValue).sum();
+                    int sum2 = this.score2.stream().mapToInt(Integer::intValue).sum();
+                    return sum1 - sum2;
+                }
 
 }

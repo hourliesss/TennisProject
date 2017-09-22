@@ -27,6 +27,6 @@ public class Tournament{
 
 	public String toString(){
 		return this.name + " qui a debuté le " + this.begin + " et a fini le " + this.end + "s'est joué sur du " + this.surface +
-			   ". C'est un " + this.category + ", il y avait " + this.participants + " participants";
+			   ". C'est un " + this.category + ", il y avait " + this.participants.size() + " participants";
 	}
 }
