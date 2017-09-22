@@ -6,21 +6,20 @@ public class Tournament{
 	private Calendar begin;
 	private Calendar end;
 	private String name;
-        private Surface surface;
+    private Surface surface;
 	private int stageNumber;
 	private ArrayList<Player> participants;
 	private Category category;
 
-	public Tournament(Calendar begin, Calendar end, String name, Surface surface, Integer stageNumber, ArrayList<Player> participants, Category category){
+	public Tournament(Calendar begin, Calendar end, String name, Integer stageNumber, ArrayList<Player> participants){
 		this.begin = begin;
 		this.end = end;
 		this.name = name;
-		this.surface = surface;
+		this.surface = null;
 		this.stageNumber = stageNumber;
 		this.participants= participants;
-		this.category = category;
-	}
-	
+		this.category = null;
+        }
 	public String getName(){
 		return this.name;
 	} 	
