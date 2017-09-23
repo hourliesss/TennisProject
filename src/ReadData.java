@@ -64,6 +64,7 @@ public class ReadData {
                         simulationData.addPlayer(values[5]);   //add oppenents if not already in the list AND if exists
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                     }
+                    // BUG HERE
                     System.out.println(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getName());
                     simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
                     
