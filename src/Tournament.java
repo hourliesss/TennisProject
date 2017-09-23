@@ -17,7 +17,7 @@ public class Tournament{
 		this.name = name;
 		this.surface = null;
 		this.stageNumber = 0;
-		this.participants= null;
+		this.participants= new ArrayList<Player>();
 		this.category = null;
         }
 	public String getName(){
@@ -54,21 +54,23 @@ public class Tournament{
         
         public void addPlayer(ArrayList<Player> players,String name){
             boolean bool = false;
-            if (name != null){
-            
-            for(Player p : this.participants){
-                if ((p.getName()).equals(name)){
-                    bool = true;
+            System.out.println(this.participants.size());
+            if ((name != null) && (this.participants.size()>0)){
+                for(Player p : this.participants){
+                    if ((p.getName()).equals(name)){
+                        bool = true;
+                    }
                 }
-            }
+                   
             if (bool == false){
-                Player newPlayer = null;
+                Player newPlayer = new Player("Cassius");
                 for(Player p : players){
                     if ((p.getName()).equals(name)){
                         newPlayer = p;
                     }
             }
                 this.participants.add(newPlayer);
+                 
             }
         }
     

@@ -65,8 +65,9 @@ public class ReadData {
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                     }
                     // BUG HERE
-                    System.out.println(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getName());
-                    simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
+                      simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
+                   System.out.println(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getName());
+                   
                     
                     if (values.length > 5){
                         simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
