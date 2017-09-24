@@ -53,28 +53,31 @@ public class ReadData {
          String round = null;
         boolean bool;
          while ((line=br.readLine())!=null){
-                String values[] = line.split("\t");
+                String values2[] = line.split("\t");
+                String values[] = values2[0].split(",");
+                
                 if (!tournamentsName.equals(values[0])){
+                    tournamentsName = values[0];
                     stageNumber = 1;
                     round = values[2];
                     cal.setTime(df.parse(values[1]));
                     simulationData.addTournament(new Tournament(values[0],cal));
                     simulationData.addPlayer(values[3]); //add first player to the list pf players if he is not already in
-                    if (values.length > 5){
+                    if (!values[5].equals("x")){
                         simulationData.addPlayer(values[5]);   //add oppenents if not already in the list AND if exists
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                     }
                     // BUG HERE
                       simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
-                   System.out.println(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getName());
-                   
                     
-                    if (values.length > 5){
+                    if (!values[5].equals("x")){
                         simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
                     }
                     
+                    
                 }
                 else{
+                    
                     cal.setTime(df.parse(values[1]));
                     if (cal.before(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getBegin())){
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setBegin(cal);
@@ -86,14 +89,18 @@ public class ReadData {
                         round = values[2];
                         stageNumber++;
                     }
+                    
                     if (stageNumber == 1){
                         simulationData.addPlayer(values[3]); //add first player to the list pf players if he is not already in
-                        simulationData.addPlayer(values[5]);   //add oppenents if not already in the list AND if exists
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
-                        simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
-                         if (values[5] != null){
-                            simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
-                    }
+                        if (!values[5].equals("x")){
+                            simulationData.addPlayer(values[5]);//add oppenents if not already in the list AND if exists
+                            simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
+                        }
+                         if (!values[5].equals("x")){
+                             simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
+                        }
+                    
                     }
                     else{
                         simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipantByName(values[3]),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipantByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
@@ -146,9 +153,10 @@ public class ReadData {
     public static LinkedList<Integer> addScore(String values[],int i){
         LinkedList<Integer> score = new LinkedList<Integer>();
         if (i == 1){
-            for (int j=9;j<15;j++){
-                if ( (values[j] != null) && (!values[j].equals("A")) ){
-                    score.add(Integer.parseInt(values[j]));
+            for (int j=7;j<13;j++){
+                if ( (!values[j].equals("x")) && (!values[j].equals("A")) ){ 
+                    score.add(Integer.parseInt(values[j]));   
+                    
                 }
                 if (values[j].equals("A")){
                     score.add(0);
@@ -158,8 +166,8 @@ public class ReadData {
         }
         
         if (i == 2){
-            for (int j=15;j<21;j++){
-                if ( (values[j] != null) && (!values[j].equals("A")) ){
+            for (int j=13;j<19;j++){
+                if ( (!values[j].equals("x")) && (!values[j].equals("A")) ){
                     score.add(Integer.parseInt(values[j]));
                 }
                 if (values[j].equals("A")){

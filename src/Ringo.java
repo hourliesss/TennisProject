@@ -13,13 +13,11 @@ import java.io.File;
 public class Ringo {
     public static void main(String[] args){
         System.out.println("Let's play Tennis with Cassius and Simon ! ");
-        File f = new File("data/tennis.txt");
+        File f = new File("data/tennis.csv");
         ReadData dataReader = new ReadData(f);
         SimulationData simulationData = dataReader.getSimulationData();
-        //for(Tournament t : simulationData.getTournaments()){
-            //System.out.println(simulationData.getTournaments().size());
-        //}  
-
+        System.out.println(simulationData.getMatches().get(53));
+        System.out.println(simulationData.getMatches().get(53).getWinner());
     }
   
 }

@@ -22,11 +22,10 @@ public class Match {
 		}
 
 		public String toString(){
-			return "Ce match qui s'est déroulé le " + this.date + " à " 
+			return "Ce match qui s'est déroulé le " + this.date.getTime() + " à " 
                                 + this.tournament.getName() + " lors du " + this.stage + 
                                 " tour, " + " a opposé " + this.player1.getName() + 
-                                " à " + this.player2.getName() + " lors du " + 
-                                this.stage + "e tour";
+                                " à " + this.player2.getName();
 		}
                 
                 public Player getWinner() {

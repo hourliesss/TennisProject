@@ -54,25 +54,26 @@ public class Tournament{
         
         public void addPlayer(ArrayList<Player> players,String name){
             boolean bool = false;
-            System.out.println(this.participants.size());
-            if ((name != null) && (this.participants.size()>0)){
-                for(Player p : this.participants){
-                    if ((p.getName()).equals(name)){
-                        bool = true;
+            if (!name.equals("")){
+                if (this.participants.size()>0){
+                    for(Player p : this.participants){
+                        if ((p.getName()).equals(name)){
+                            bool = true;
+                        }
                     }
                 }
-                   
-            if (bool == false){
-                Player newPlayer = new Player("Cassius");
-                for(Player p : players){
-                    if ((p.getName()).equals(name)){
-                        newPlayer = p;
-                    }
-            }
-                this.participants.add(newPlayer);
-                 
-            }
+                if (bool == false){
+                    Player newPlayer = new Player("Cassius");
+                    for(Player p : players){
+                        if ((p.getName()).equals(name)){
+                            newPlayer = p;
+                        }
+                }
+                    this.participants.add(newPlayer);
+
+                }
         }
+            
     
     }
         
