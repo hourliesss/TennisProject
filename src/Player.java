@@ -12,11 +12,11 @@ public class Player {
 	private ArrayList<Match> matchs;
 	private TreeMap<Calendar,PlayerState> stateMap;
 
-	public Player(String name){
+	public Player(String name, int atpRanking){
 		this.name = name;
 		this.birthDate = null;
 		this.matchs = new ArrayList<>();
-                PlayerState initialState = new PlayerState(50000, 100);
+                PlayerState initialState = new PlayerState(50000, 100,atpRanking);
 		this.stateMap = new TreeMap<>();
                 this.stateMap.put(new GregorianCalendar(1970,1,1), initialState);
 	}
