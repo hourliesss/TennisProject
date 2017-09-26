@@ -45,39 +45,48 @@ public class ReadData {
          
          DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
          String line = null;
-         Calendar tournamentBegin= Calendar.getInstance();
-	 Calendar tournamentEnd = Calendar.getInstance();
-         Calendar cal = Calendar.getInstance();
+         
+         
          String tournamentsName = "Cassius and Simon Tournament(coming soon)";
 	 int stageNumber = 0;
          String round = null;
-        boolean bool;
+         boolean bool;
+         
          while ((line=br.readLine())!=null){
-                String values2[] = line.split("\t");
-                String values[] = values2[0].split(",");
+                String values[] = line.split("\t");
                 
                 if (!tournamentsName.equals(values[0])){
                     tournamentsName = values[0];
                     stageNumber = 1;
                     round = values[2];
-                    cal.setTime(df.parse(values[1]));
-                    simulationData.addTournament(new Tournament(values[0],cal));
-                    simulationData.addPlayer(values[3]); //add first player to the list pf players if he is not already in
+                    Calendar firstCal = Calendar.getInstance();
+                    firstCal.setTime(df.parse(values[1]));
+                    switch (values[0].substring(0, 3)){
+                        case "ATP": simulationData.addTournament(new Tournament(values[0],firstCal,Category.ATP));
+                                    break;
+                        case "Mas": simulationData.addTournament(new Tournament(values[0],firstCal,Category.MASTERS));
+                                    break;
+                        default: simulationData.addTournament(new Tournament(values[0],firstCal,Category.GRAND_SLAM));
+                                    break;
+                    }
+                    
+                    
+                    simulationData.addPlayer(values[3],Integer.parseInt(values[4])); //add first player to the list pf players if he is not already in
                     if (!values[5].equals("x")){
-                        simulationData.addPlayer(values[5]);   //add oppenents if not already in the list AND if exists
+                        simulationData.addPlayer(values[5],Integer.parseInt(values[6]));   //add oppenents if not already in the list AND if exists
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                     }
                     // BUG HERE
                       simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
                     
                     if (!values[5].equals("x")){
-                        simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
+                        simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),firstCal,stageNumber));
                     }
                     
                     
                 }
                 else{
-                    
+                    Calendar cal = Calendar.getInstance();
                     cal.setTime(df.parse(values[1]));
                     if (cal.before(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getBegin())){
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setBegin(cal);
@@ -91,10 +100,10 @@ public class ReadData {
                     }
                     
                     if (stageNumber == 1){
-                        simulationData.addPlayer(values[3]); //add first player to the list pf players if he is not already in
+                        simulationData.addPlayer(values[3],Integer.parseInt(values[4])); //add first player to the list pf players if he is not already in
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
                         if (!values[5].equals("x")){
-                            simulationData.addPlayer(values[5]);//add oppenents if not already in the list AND if exists
+                            simulationData.addPlayer(values[5],Integer.parseInt(values[6]));//add oppenents if not already in the list AND if exists
                             simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                         }
                          if (!values[5].equals("x")){
@@ -103,6 +112,7 @@ public class ReadData {
                     
                     }
                     else{
+                        simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setStageNumber(stageNumber);
                         simulationData.addMatch(new Match(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipantByName(values[3]),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipantByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
                     }
                     }
@@ -134,22 +144,7 @@ public class ReadData {
     
     
     
-    public static ArrayList<Player> addParticipants(ArrayList<Player> participants,ArrayList<Player> players, String name){
-        if (name != null){
-            boolean bool = false;
-            for(Player p : players){
-                if ((p.getName()).equals(name)){
-                    bool = true;
-                }
-            }
-            if (bool == false){
-                players.add(new Player(name));
-            }
-        }
     
-        return players;
-    }
- 
     public static LinkedList<Integer> addScore(String values[],int i){
         LinkedList<Integer> score = new LinkedList<Integer>();
         if (i == 1){

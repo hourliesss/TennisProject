@@ -39,7 +39,7 @@ public class SimulationData {
     public void addTournament(Tournament tournament){
         this.tournaments.add(tournament);
     }
-    public void addPlayer(String name){
+    public void addPlayer(String name, int atpRanking){
         boolean bool = false;
         
         if (!name.equals("")){
@@ -51,7 +51,7 @@ public class SimulationData {
             }
             
             if (bool == false){
-                this.players.add(new Player(name));
+                this.players.add(new Player(name,atpRanking));
                 
             }
         }
