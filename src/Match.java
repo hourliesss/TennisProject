@@ -47,10 +47,50 @@ public class Match {
                  *   Reveals the gap between the two players' scores
                  *   formula : sum(scores(P1)) - sum(scores(P2))
                  **/
-                public int getGap() {
+                public int getGapScore() {
                     int sum1 = this.score1.stream().mapToInt(Integer::intValue).sum();
                     int sum2 = this.score2.stream().mapToInt(Integer::intValue).sum();
                     return sum1 - sum2;
+                }
+                
+                public int getGapHealth() {
+                    int health1 = this.player1.getHealth();
+                    int health2 = this.player2.getHealth();
+                    return health1 - health2;
+                }
+                
+                public double getGapRanking() {
+                    double ranking1 = this.player1.getRanking();
+                    double ranking2 = this.player2.getRanking();
+                    return ranking1 - ranking2;
+                }
+                
+                public double rankingFunc(double x) {
+                    return x;
+                }
+                
+                public void updateStates() {
+                    int health1 = this.player1.getHealth();
+                    int health2 = this.player2.getHealth();
+                    int gamesNb = this.score1.stream().mapToInt(Integer::intValue).sum() + 
+                            this.score2.stream().mapToInt(Integer::intValue).sum();
+                    int newHealth1 = health1 - gamesNb;
+                    int newHealth2 = health2 - gamesNb;
+                    
+                    int gapScore = getGapScore();
+                    int gapHealth = getGapHealth();
+                    double gapRanking = getGapRanking();
+                    
+                    double ranking1 = this.player1.getRanking();
+                    double ranking2 = this.player2.getRanking();
+                    
+                    double coeff = gapScore*gapHealth/100;
+                    
+                    double newRanking1 = ranking1 + coeff*rankingFunc(gapRanking);
+                    double newRanking2 = ranking2 + coeff*rankingFunc(-gapRanking);
+                    
+                    this.player1.updateState(this.date, new PlayerState(newRanking1, newHealth1));
+                    this.player2.updateState(this.date, new PlayerState(newRanking2, newHealth2));
                 }
 
 }

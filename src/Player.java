@@ -29,6 +29,14 @@ public class Player {
         public PlayerState getState() {
             return this.stateMap.lastEntry().getValue();
         }
+        
+        public double getRanking() {
+            return this.getState().getRanking();
+        }
+        
+        public int getHealth() {
+            return this.getState().getHealth();
+        }
 	
 	public String toString(){
                 Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();
