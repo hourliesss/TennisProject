@@ -112,19 +112,27 @@ public class TennisMatch {
                             this.score2.stream().mapToInt(Integer::intValue).sum();
                 }
                 
-                
-                public void updateStates() {
+                public void updateRanking(Calendar calendar) {
                     int health1 = this.player1.getHealth();
                     int health2 = this.player2.getHealth();
                     int gamesNb = getGamesNb();
-                    /*int newHealth1 = health1 - gamesNb;
-                    int newHealth2 = health2 - gamesNb;*/
                     double ranking1 = this.player1.getRanking();
                     double ranking2 = this.player2.getRanking();
                     double diffWeights = ranking2*health2 - ranking1*health1;
-                    
                     double newRanking1 = ranking1 + rankingFunc(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
                     double newRanking2 = ranking2 + rankingFunc(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                    this.player1.getStateMap().get(calendar).setRanking(newRanking1);
+                    this.player2.getStateMap().get(calendar).setRanking(newRanking2);
+                }
+                
+                public void updateStates() {
+                    
+                    /*int newHealth1 = health1 - gamesNb;
+                    int newHealth2 = health2 - gamesNb;*/
+                    
+                    
+                    
+                    
                     
                    //this.player1.updateState(this.date, new PlayerState(newRanking1, newHealth1));
                    //this.player2.updateState(this.date, new PlayerState(newRanking2, newHealth2));

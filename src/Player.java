@@ -26,6 +26,10 @@ public class Player {
             this.stateMap.put(date, state);
         }
         
+        public TreeMap<Calendar,PlayerState> getStateMap() {
+            return this.stateMap;
+        }
+        
         public PlayerState getState() {
             return this.stateMap.lastEntry().getValue();
         }
