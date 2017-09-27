@@ -54,7 +54,6 @@ public class ReadData {
          
          while ((line=br.readLine())!=null){
                 String values[] = line.split("\t");
-                System.out.println(values[3] + " " + values[5]);
                 if (!tournamentsName.equals(values[0])){
                     tournamentsName = values[0];
                     stageNumber = 1;
@@ -133,10 +132,10 @@ public class ReadData {
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setStageNumber(stageNumber);
                         simulationData.addMatch(new TennisMatch(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipantByName(values[3]),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipantByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
                         TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
-                        System.out.println(values[3] + " " + values[5]);
                         m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]));
                         simulationData.getPlayerByName(values[3]).addMatch(m);
                         simulationData.getPlayerByName(values[5]).addMatch(m);
+                        System.out.println(values[1] + " " + values[3] + " " + values[5]);
                     }
                     }
                 }
