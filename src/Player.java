@@ -21,6 +21,19 @@ public class Player {
                 this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
 
+        public Calendar getBirthDate() {
+            return this.birthDate;
+        }
+        
+        public boolean equals(Object o) {
+            boolean inst = o instanceof Player;
+            if (inst) {
+                Player lol = (Player) o;
+                return lol.getName().equals(this.name) && lol.getBirthDate().equals(this.birthDate);
+            }
+             else
+                return false;
+        }
         
         public void updateState(Calendar date, PlayerState state) {
             this.stateMap.put(date, state);

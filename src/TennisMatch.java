@@ -91,7 +91,6 @@ public class TennisMatch {
                 private static double f(double x) {
                     return 2000*Math.exp(x/(6*10^4));
                 }
-                
                 private static double g(int wonSets, int lostSets, int gamesNb, double x) {
                     return 4000*Math.atan(2*(wonSets - lostSets)/gamesNb-4)/3 + h(x);
                 }
@@ -100,11 +99,15 @@ public class TennisMatch {
                     if (x >= 0)
                         return 1200*Math.log(x/20000 + 1);
                     else
-                        return -h(-x);
+                        return -1200*Math.log(-x/20000 + 1);
                 }
                 
-                public static double rankingFunc(int wonSets, int lostSets, int gamesNb, double diffWeights) {
+                public static double rankingFuncWin(int wonSets, int lostSets, int gamesNb, double diffWeights) {
                     return f(diffWeights) + g(wonSets, lostSets, gamesNb, diffWeights);
+                }
+                
+                public static double rankingFuncLoss(int wonSets, int lostSets, int gamesNb, double diffWeights) {
+                    return -f(-diffWeights) - g(-wonSets, -lostSets, gamesNb, diffWeights);
                 }
                 
                 public int getGamesNb(){
@@ -120,8 +123,17 @@ public class TennisMatch {
                     double ranking1 = this.player1.getRanking();
                     double ranking2 = this.player2.getRanking();
                     double diffWeights = ranking2*health2 - ranking1*health1;
-                    double newRanking1 = ranking1 + rankingFunc(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
-                    double newRanking2 = ranking2 + rankingFunc(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                    double newRanking1;
+                    double newRanking2;
+                    if (this.player1.equals(getWinner())) {
+                        newRanking1 = ranking1 + rankingFuncWin(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
+                        newRanking2 = ranking2 + rankingFuncLoss(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                    }   
+                    else {
+                        newRanking1 = ranking1 + rankingFuncLoss(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
+                        newRanking2 = ranking2 + rankingFuncWin(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                    }
+                    
                     PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking1);
                     PlayerState p2 = new PlayerState(newRanking1,health2, atpRanking2);
                     this.player1.getStateMap().put(this.date,p1);
