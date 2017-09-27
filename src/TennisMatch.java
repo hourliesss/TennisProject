@@ -63,6 +63,19 @@ public class TennisMatch {
                     return sum1 - sum2;
                 }
                 
+                public int getWonSetsP1() {
+                    int count = 0;
+                    for (int i=0; i<this.score1.size(); i++) {
+                        if (this.score1.get(i) > this.score2.get(i))
+                            count++;
+                    }
+                    return count;
+                }
+                
+                public int getWonSetsP2() {
+                    return this.score1.size() - getWonSetsP1();
+                }
+                
                 public int getGapHealth() {
                     int health1 = this.player1.getHealth();
                     int health2 = this.player2.getHealth();
@@ -75,8 +88,23 @@ public class TennisMatch {
                     return ranking1 - ranking2;
                 }
                 
-                public double rankingFunc(double x) {
-                    return x;
+                private static double f(double x) {
+                    return 2000*Math.exp(x/(6*10^4));
+                }
+                
+                private static double g(int wonSets, int lostSets, int gamesNb, double x) {
+                    return 4000*Math.atan(2*(wonSets - lostSets)/gamesNb-4)/3 + h(x);
+                }
+                
+                private static double h(double x) {
+                    if (x >= 0)
+                        return 1200*Math.log(x/20000 + 1);
+                    else
+                        return -h(-x);
+                }
+                
+                public static double rankingFunc(int wonSets, int lostSets, int gamesNb, double diffWeights) {
+                    return f(diffWeights) + g(wonSets, lostSets, gamesNb, diffWeights);
                 }
                 
                 public int getGamesNb(){
@@ -89,23 +117,17 @@ public class TennisMatch {
                     int health1 = this.player1.getHealth();
                     int health2 = this.player2.getHealth();
                     int gamesNb = getGamesNb();
-                    int newHealth1 = health1 - gamesNb;
-                    int newHealth2 = health2 - gamesNb;
-                    
-                    int gapScore = getGapScore();
-                    int gapHealth = getGapHealth();
-                    double gapRanking = getGapRanking();
-                    
+                    /*int newHealth1 = health1 - gamesNb;
+                    int newHealth2 = health2 - gamesNb;*/
                     double ranking1 = this.player1.getRanking();
                     double ranking2 = this.player2.getRanking();
+                    double diffWeights = ranking2*health2 - ranking1*health1;
                     
-                    double coeff = gapScore*gapHealth/100;
+                    double newRanking1 = ranking1 + rankingFunc(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
+                    double newRanking2 = ranking2 + rankingFunc(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
                     
-                    double newRanking1 = ranking1 + coeff*rankingFunc(gapRanking);
-                    double newRanking2 = ranking2 + coeff*rankingFunc(-gapRanking);
-                    
-                  //  this.player1.updateState(this.date, new PlayerState(newRanking1, newHealth1));
-                   // this.player2.updateState(this.date, new PlayerState(newRanking2, newHealth2));
+                   //this.player1.updateState(this.date, new PlayerState(newRanking1, newHealth1));
+                   //this.player2.updateState(this.date, new PlayerState(newRanking2, newHealth2));
                 }
 
 }
