@@ -36,6 +36,17 @@ public class SimulationData {
         return this.matches;
     }
     
+    public Player getPlayerByName(String name){
+            Player newPlayer = null;
+                for(Player p : this.players){
+                    if ((p.getName()).equals(name)){
+                        newPlayer = p;
+                    }
+            }
+                return newPlayer;
+        }
+    
+    
     public void addTournament(Tournament tournament){
         this.tournaments.add(tournament);
     }

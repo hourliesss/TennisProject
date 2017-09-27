@@ -9,16 +9,16 @@ public class Player {
 
 	private String name;
 	private Calendar birthDate;
-	private ArrayList<Match> matchs;
+	private ArrayList<Match> matches;
 	private TreeMap<Calendar,PlayerState> stateMap;
 
 	public Player(String name, int atpRanking){
 		this.name = name;
 		this.birthDate = null;
-		this.matchs = new ArrayList<>();
+		this.matches = new ArrayList<>();
                 PlayerState initialState = new PlayerState(50000, 100,atpRanking);
 		this.stateMap = new TreeMap<>();
-                this.stateMap.put(new GregorianCalendar(1970,1,1), initialState);
+                this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
 
         
@@ -30,6 +30,14 @@ public class Player {
             return this.stateMap.lastEntry().getValue();
         }
         
+        public ArrayList<Match> getMatches() {
+            return this.matches;
+        }
+        
+        public void addMatch(Match match){
+            this.matches.add(match);
+        }
+        
         public double getRanking() {
             return this.getState().getRanking();
         }
@@ -38,6 +46,19 @@ public class Player {
             return this.getState().getHealth();
         }
 	
+        public void setHealth(){
+            Calendar cal = new GregorianCalendar(1970,1,1);
+            Calendar today = Calendar.getInstance();
+            int tired = 0;
+            int atpRanking;
+            for (int i = 0;i< this.matches.size();i++){
+               // tired = this.matches.get(i).getGamesNb(); // WHY CAN'T I?
+            
+            }
+        }
+        
+       
+        
 	public String toString(){
                 Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();
                 double currentRanking = currentEntry.getValue().getRanking();
