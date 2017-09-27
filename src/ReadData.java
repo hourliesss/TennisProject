@@ -54,14 +54,13 @@ public class ReadData {
          
          while ((line=br.readLine())!=null){
                 String values[] = line.split("\t");
-                
+                System.out.println(values[3] + " " + values[5]);
                 if (!tournamentsName.equals(values[0])){
                     tournamentsName = values[0];
                     stageNumber = 1;
                     round = values[2];
                     Calendar firstCal = Calendar.getInstance();
                     firstCal.setTime(df.parse(values[1]));
-                    System.out.println("hey");
                     switch (values[0].substring(0, 3)){
                         case "ATP": simulationData.addTournament(new Tournament(values[0],firstCal,Category.ATP));
                                     break;

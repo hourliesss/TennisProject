@@ -91,8 +91,8 @@ public class TennisMatch {
                 private static double f(double x) {
                     return 2000*Math.exp(x/(6*10^4));
                 }
-                private static double g(int wonSets, int lostSets, int gamesNb, double x) {
-                    return 4000*Math.atan(2*(wonSets - lostSets)/gamesNb-4)/3 + h(x);
+                private static double g(int wonGames, int lostGames,int gamesNb, double x) {
+                    return 4000*Math.atan(2*(wonGames- lostGames)/gamesNb-4)/3 + h(x);
                 }
                 
                 private static double h(double x) {
@@ -102,8 +102,8 @@ public class TennisMatch {
                         return -1200*Math.log(-x/20000 + 1);
                 }
                 
-                public static double rankingFuncWin(int wonSets, int lostSets, int gamesNb, double diffWeights) {
-                    return f(diffWeights) + g(wonSets, lostSets, gamesNb, diffWeights);
+                public static double rankingFuncWin(int wonGames, int lostGames, int gamesNb, double diffWeights) {
+                    return f(diffWeights) + g(wonGames, lostGames, gamesNb, diffWeights);
                 }
                 
                 public static double rankingFuncLoss(int wonSets, int lostSets, int gamesNb, double diffWeights) {
@@ -113,6 +113,14 @@ public class TennisMatch {
                 public int getGamesNb(){
                     return this.score1.stream().mapToInt(Integer::intValue).sum() + 
                             this.score2.stream().mapToInt(Integer::intValue).sum();
+                }
+                
+                 public int getWonGamesPlayer1(){
+                    return this.score1.stream().mapToInt(Integer::intValue).sum();
+                }
+                 
+                 public int getWonGamesPlayer2(){
+                    return this.score2.stream().mapToInt(Integer::intValue).sum();
                 }
                
        
@@ -125,9 +133,11 @@ public class TennisMatch {
                     double diffWeights = ranking2*health2 - ranking1*health1;
                     double newRanking1;
                     double newRanking2;
+                    System.out.println(this.player1);
+                    System.out.println(getWinner());
                     if (this.player1.equals(getWinner())) {
-                        newRanking1 = ranking1 + rankingFuncWin(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
-                        newRanking2 = ranking2 + rankingFuncLoss(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                        newRanking1 = ranking1 + rankingFuncWin(getWonGamesPlayer1(), getWonGamesPlayer2(), gamesNb, diffWeights);
+                        newRanking2 = ranking2 + rankingFuncLoss(getWonGamesPlayer2(), getWonGamesPlayer1(), gamesNb, -diffWeights);
                     }   
                     else {
                         newRanking1 = ranking1 + rankingFuncLoss(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
