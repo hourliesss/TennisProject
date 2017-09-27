@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,9 +18,13 @@ public class Ringo {
         File f = new File("data/tennis2.csv");
         ReadData dataReader = new ReadData(f);
         SimulationData simulationData = dataReader.getSimulationData();
-        for (int i = 1;i<simulationData.getTournaments().size();i++){
-        System.out.println(simulationData.getTournaments().get(i).getName() + simulationData.getTournaments().get(i).getCategory());
+        Iterator it = simulationData.getPlayers().get(1).getStateMap().entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
         }
+       
     }
   
 }

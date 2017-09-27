@@ -34,6 +34,10 @@ public class Player {
             return this.matches;
         }
         
+        public TreeMap<Calendar,PlayerState> getStateMap(){
+            return this.stateMap;
+        }
+        
         public void addMatch(TennisMatch match){
             this.matches.add(match);
         }
@@ -46,6 +50,18 @@ public class Player {
             return this.getState().getHealth();
         }
         
+        public void addPlayerState(int atpRanking, Calendar date){
+            if (!this.matches.isEmpty()){
+                
+                PlayerState p = new PlayerState(0,getNewHealth(date), atpRanking);
+                this.stateMap.put(date, p);
+                                        }
+        }
+        
+        public int getNewHealth(Calendar date){ 
+            return (Math.min(this.getHealth()-this.matches.get(this.matches.size()-1).getGamesNb() + daysBetween(date,this.stateMap.lastEntry().getKey())*10,100));
+        }
+       
         /**
          * number of days elapsed between two calendars
          **/
@@ -55,7 +71,7 @@ public class Player {
             double timestampInMilliS = date1.getTime() - date2.getTime();
             return Math.abs((int)timestampInMilliS/86400000);
         }
-     
+        
         public void setHealth(){
             Calendar today = Calendar.getInstance();
             //int atpRanking;
