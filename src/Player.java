@@ -29,7 +29,7 @@ public class Player {
             boolean inst = o instanceof Player;
             if (inst) {
                 Player lol = (Player) o;
-                return lol.getName().equals(this.name) && lol.getBirthDate().equals(this.birthDate);
+                return lol.getName().equals(this.name);
             }
              else
                 return false;
