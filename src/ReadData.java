@@ -61,6 +61,7 @@ public class ReadData {
                     round = values[2];
                     Calendar firstCal = Calendar.getInstance();
                     firstCal.setTime(df.parse(values[1]));
+                    System.out.println("hey");
                     switch (values[0].substring(0, 3)){
                         case "ATP": simulationData.addTournament(new Tournament(values[0],firstCal,Category.ATP));
                                     break;
@@ -133,6 +134,7 @@ public class ReadData {
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setStageNumber(stageNumber);
                         simulationData.addMatch(new TennisMatch(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipantByName(values[3]),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipantByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
                         TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
+                        System.out.println(values[3] + " " + values[5]);
                         m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]));
                         simulationData.getPlayerByName(values[3]).addMatch(m);
                         simulationData.getPlayerByName(values[5]).addMatch(m);

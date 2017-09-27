@@ -127,11 +127,11 @@ public class TennisMatch {
                     double newRanking2;
                     if (this.player1.equals(getWinner())) {
                         newRanking1 = ranking1 + rankingFuncWin(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
-                        newRanking2 = ranking2 + rankingFuncLoss(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                        newRanking2 = ranking2 + rankingFuncLoss(getWonSetsP2(), getWonSetsP1(), gamesNb, diffWeights);
                     }   
                     else {
                         newRanking1 = ranking1 + rankingFuncLoss(getWonSetsP1(), getWonSetsP2(), gamesNb, diffWeights);
-                        newRanking2 = ranking2 + rankingFuncWin(getWonSetsP2(), getWonSetsP1(), gamesNb, -diffWeights);
+                        newRanking2 = ranking2 + rankingFuncWin(getWonSetsP2(), getWonSetsP1(), gamesNb, diffWeights);
                     }
                     
                     PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking1);
