@@ -135,7 +135,7 @@ public class TennisMatch {
                     }
                     
                     PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking1);
-                    PlayerState p2 = new PlayerState(newRanking1,health2, atpRanking2);
+                    PlayerState p2 = new PlayerState(newRanking2,health2, atpRanking2);
                     this.player1.getStateMap().put(this.date,p1);
                     this.player2.getStateMap().put(this.date,p2);
                 }
