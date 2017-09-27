@@ -28,6 +28,10 @@ public class TennisMatch {
                                 " à " + this.player2.getName();
 		}
                 
+                public Calendar getDate() {
+                    return this.date;
+                }
+                
                 public Player getWinner() {
                     if (this.score1.size() > this.score2.size()){ //Player1 abandoned
                         return this.player2;

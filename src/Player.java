@@ -1,6 +1,6 @@
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -16,7 +16,7 @@ public class Player {
 		this.name = name;
 		this.birthDate = null;
 		this.matches = new ArrayList<>();
-                PlayerState initialState = new PlayerState(50000, 100,atpRanking);
+                PlayerState initialState = new PlayerState(50000, 100, atpRanking);
 		this.stateMap = new TreeMap<>();
                 this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
@@ -45,15 +45,27 @@ public class Player {
         public int getHealth() {
             return this.getState().getHealth();
         }
-	
+        
+        /**
+         * number of days elapsed between two calendars
+         **/
+        public int daysBetween(Calendar c1, Calendar c2) {
+            Date date1 = c1.getTime();
+            Date date2 = c2.getTime();
+            double timestampInMilliS = date1.getTime() - date2.getTime();
+            return Math.abs((int)timestampInMilliS/86400000);
+        }
+     
         public void setHealth(){
-            Calendar cal = new GregorianCalendar(1970,1,1);
             Calendar today = Calendar.getInstance();
-            int tired = 0;
-            int atpRanking;
-            for (int i = 0;i< this.matches.size();i++){
-                tired = this.matches.get(i).getGamesNb(); 
-            
+            //int atpRanking;
+            if (!this.matches.isEmpty()) {
+                Calendar lastDate = this.matches.get(this.matches.size() - 1).getDate();
+                int currentHealth = Math.min(daysBetween(today, lastDate)*10 + getHealth(), 100);
+                for (TennisMatch m : this.matches) {
+                    currentHealth -= m.getGamesNb()/2;
+                }
+                this.getState().setHealth(currentHealth);
             }
         }
         

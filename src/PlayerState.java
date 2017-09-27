@@ -21,6 +21,18 @@ public class PlayerState {
                 public int getAtpRanking() {
                     return this.atpRanking;
                 }
+                
+                public void setRanking(double ranking) {
+                    this.ranking = ranking;
+                }
+                
+                public void setAtpRanking(int atpRanking) {
+                    this.atpRanking = atpRanking;
+                }
+                
+                public void setHealth(int health) {
+                    this.health = health;
+                }
  
  
 }
