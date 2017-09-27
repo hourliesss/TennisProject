@@ -16,12 +16,12 @@ public class SimulationData {
     
     private ArrayList<Tournament> tournaments;
     private ArrayList<Player> players;
-    private ArrayList<Match> matches;
+    private ArrayList<TennisMatch> matches;
     
     public SimulationData(){
         this.tournaments = new ArrayList<Tournament>();
         this.players = new ArrayList<Player>();
-        this.matches = new ArrayList<Match>();
+        this.matches = new ArrayList<TennisMatch>();
     }
     
     public ArrayList<Tournament> getTournaments(){
@@ -32,7 +32,7 @@ public class SimulationData {
         return this.players;
     }
     
-    public ArrayList<Match> getMatches(){
+    public ArrayList<TennisMatch> getMatches(){
         return this.matches;
     }
     
@@ -70,7 +70,7 @@ public class SimulationData {
         
     }
     
-    public void addMatch(Match match){
+    public void addMatch(TennisMatch match){
         this.matches.add(match);
     }
     

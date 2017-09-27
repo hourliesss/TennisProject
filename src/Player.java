@@ -9,7 +9,7 @@ public class Player {
 
 	private String name;
 	private Calendar birthDate;
-	private ArrayList<Match> matches;
+	private ArrayList<TennisMatch> matches;
 	private TreeMap<Calendar,PlayerState> stateMap;
 
 	public Player(String name, int atpRanking){
@@ -30,11 +30,11 @@ public class Player {
             return this.stateMap.lastEntry().getValue();
         }
         
-        public ArrayList<Match> getMatches() {
+        public ArrayList<TennisMatch> getMatches() {
             return this.matches;
         }
         
-        public void addMatch(Match match){
+        public void addMatch(TennisMatch match){
             this.matches.add(match);
         }
         
@@ -52,7 +52,7 @@ public class Player {
             int tired = 0;
             int atpRanking;
             for (int i = 0;i< this.matches.size();i++){
-               // tired = this.matches.get(i).getGamesNb(); // WHY CAN'T I?
+                tired = this.matches.get(i).getGamesNb(); 
             
             }
         }
