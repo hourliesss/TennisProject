@@ -61,11 +61,13 @@ public class Player {
             //int atpRanking;
             if (!this.matches.isEmpty()) {
                 Calendar lastDate = this.matches.get(this.matches.size() - 1).getDate();
-                int currentHealth = Math.min(daysBetween(today, lastDate)*10 + getHealth(), 100);
+                int health = daysBetween(today, lastDate)*10;
                 for (TennisMatch m : this.matches) {
-                    currentHealth -= m.getGamesNb()/2;
+                    health -= m.getGamesNb()/2;
                 }
-                this.getState().setHealth(currentHealth);
+                if (health < 0)
+                    health = 0;
+                this.getState().setHealth(Math.min(health, 100));
             }
         }
         
