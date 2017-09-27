@@ -18,13 +18,13 @@ public class Ringo {
         File f = new File("data/tennis2.csv");
         ReadData dataReader = new ReadData(f);
         SimulationData simulationData = dataReader.getSimulationData();
-        Iterator it = simulationData.getPlayers().get(1).getStateMap().entrySet().iterator();
+      /*  Iterator it = simulationData.getPlayers().get(1).getStateMap().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
-       
+       */
     }
   
 }
