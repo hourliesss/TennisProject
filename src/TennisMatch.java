@@ -21,6 +21,14 @@ public class TennisMatch {
 			this.stage = stage;
 		}
 
+                public Player getP1(){
+                    return this.player1;
+                }
+                
+                public Player getP2(){
+                    return this.player2;
+                }
+                
 		public String toString(){
 			return "Ce match qui s'est déroulé le " + this.date.getTime() + " à " 
                                 + this.tournament.getName() + " lors du " + this.stage + 
@@ -89,10 +97,10 @@ public class TennisMatch {
                 }
                 
                 public static double f(double x) {
-                    return 2000*Math.exp(x/(60000));
+                    return 1000*Math.exp(x/(60000));
                 }
                 public static double g(int wonGames, int lostGames,int setNumbers, double x) {
-                    return 4000*Math.atan(2*(wonGames- lostGames)/setNumbers-4)/3 + h(x);
+                    return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4) + h(x);
                 }
                 
                 private static double h(double x) {
@@ -102,22 +110,22 @@ public class TennisMatch {
                         return -1200*Math.log(-x/20000 + 1);
                 }
                 
-                private double rankingFuncWin(int wonGames, int lostGames, int setNumbers, double diffWeights) {
+                private double rankingFuncWin(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
                     if (this.score1.size() != this.score2.size()){ //If a player abandoned, the result does not matter
-                        return g(wonGames, lostGames, setNumbers, diffWeights);
+                        return coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
                     }
                     else{
-                        return f(diffWeights) + g(wonGames, lostGames, setNumbers, diffWeights);
+                        return coeffF*f(diffWeights) + coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
                     }
                     
                 }
                 
-                private double rankingFuncLoss(int wonGames, int lostGames, int setNumbers, double diffWeights) {
+                private double rankingFuncLoss(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
                     if (this.score1.size() != this.score2.size()){ //If a player abandoned, the result does not matter
-                        return - g(lostGames, wonGames, setNumbers, -diffWeights);
+                        return - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
                     }
                     else{
-                        return -f(-diffWeights) - g(lostGames, wonGames, setNumbers, -diffWeights);
+                        return -coeffF*f(-diffWeights) - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
                     }
                     
                 }
@@ -143,7 +151,7 @@ public class TennisMatch {
                     return 0.85+0.10*Math.atan(0.03*(health-50));
                 }
        
-                public void updateRanking(int atpRanking1, int atpRanking2) {
+                public void updateRanking(int atpRanking1, int atpRanking2, int coeffF, int coeffG) {
                     int setNb = getSetNb();
                     int gamesNb = getGamesNb();
                     int health1 = Math.min(this.player1.getHealth()-gamesNb + Player.daysBetween(this.date,this.player1.getStateMap().lastKey())*10,100);
@@ -161,12 +169,12 @@ public class TennisMatch {
                     }
                     else{
                         if (this.player1.equals(getWinner())) {
-                            newRanking1 = ranking1 + rankingFuncWin(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights);
-                            newRanking2 = ranking2 + rankingFuncLoss(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights);
+                            newRanking1 = ranking1 + rankingFuncWin(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
+                            newRanking2 = ranking2 + rankingFuncLoss(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights, coeffF, coeffG);
                         }   
                         else {
-                            newRanking1 = ranking1 + rankingFuncLoss(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights);
-                            newRanking2 = ranking2 + rankingFuncWin(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights);
+                            newRanking1 = ranking1 + rankingFuncLoss(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
+                            newRanking2 = ranking2 + rankingFuncWin(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights, coeffF, coeffG);
                         }
                          PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking1);
                          PlayerState p2 = new PlayerState(newRanking2,health2, atpRanking2);

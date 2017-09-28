@@ -16,7 +16,10 @@ public class Player {
 		this.name = name;
 		this.birthDate = null;
 		this.matches = new ArrayList<>();
-                PlayerState initialState = new PlayerState(50000, 100, atpRanking);
+                /* Classic initialization */
+                 PlayerState initialState = new PlayerState(50000, 100, atpRanking);
+                /* Initializtion related to ranking */
+                //    PlayerState initialState = new PlayerState(75000- Math.min(atpRanking,200)*250,100,atpRanking);
 		this.stateMap = new TreeMap<>();
                 this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
