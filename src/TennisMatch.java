@@ -40,6 +40,10 @@ public class TennisMatch {
                     return this.date;
                 }
                 
+                public Tournament getTournament(){
+                    return this.tournament;
+                }
+                
                 public Player getWinner() {
                     if (this.score1.size() > this.score2.size()){ //Player1 abandoned
                         return this.player2;

@@ -68,12 +68,12 @@ public class Ringo {
         System.out.println("Let's play Tennis with Cassius and Simon ! ");
         File f = new File("data/tennis2.csv");
         ReadData dataReader = new ReadData(f);
-        SimulationData simulationData = dataReader.getSimulationData(3,2);
+        SimulationData simulationData = dataReader.getSimulationData(5,1);
                            
         /*
                             *** Test One Player ranking's evolution
                                                                */
-       if (true){
+       if (false){
            Iterator it = simulationData.getPlayerByName("Rafael Nadal").getStateMap().entrySet().iterator();
            while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
@@ -87,14 +87,47 @@ public class Ringo {
         
                         *** All Players last ranking
                                                                */
-        if (false){
+        if (true){
         for (Player p : simulationData.getPlayers()){
-            if (p.getMatches().size() >= 10)
-                System.out.println(p.getName() + ", ranking :  " +p.getRanking());
+             if (p.getMatches().size() > 30 ){ //Wait for ranking to set a correct value
+                        System.out.println("------ Joueur :  " + p.getName() + " ------ ");
+                        for (int i = 30;i<p.getMatches().size();i++){
+                            if (p.getMatches().get(i).getP2().getStateMap().size() >= 30){
+                                
+                                int pos = 0; //Does the oppenent already play 10 matches?
+                                for (Calendar key : p.getMatches().get(i).getP2().getStateMap().keySet()) {
+
+                                    if(key.before(p.getMatches().get(i).getDate())){
+                                        pos++;
+                                        
+                                    }
+                                }
+
+                                if (pos>30){
+                                    if ( (p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(p.getMatches().get(i).getDate()).getHealth()) >  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getHealth())) || (!p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(p.getMatches().get(i).getDate()).getHealth()) <  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getHealth())) ) {
+                                       if(p.getMatches().get(i).getWinner().equals(p)){
+                                           System.out.println(p.getMatches().get(i).getDate().getTime() + " : Bon resultat :" + p.getName() + "(" +p.getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") a battu " + p.getMatches().get(i).getP2().getName() + " (" + p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") à " + " à " + p.getMatches().get(i).getTournament().getName());
+                                       }
+                                       else{
+                                           System.out.println(p.getMatches().get(i).getDate().getTime() + " : Bon resultat :" + p.getName() + "(" +p.getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") a perdu contre " + p.getMatches().get(i).getP2().getName() + " (" + p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") à " + " à " + p.getMatches().get(i).getTournament().getName());
+                                       
+                                       }
+                                   }
+                                   else{
+                                        if(p.getMatches().get(i).getWinner().equals(p)){
+                                           System.out.println(p.getMatches().get(i).getDate().getTime() + " : Mauvais resultat :" + p.getName() + "(" +p.getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") a battu " + " (" + p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") à " + p.getMatches().get(i).getP2().getName() + " à " + p.getMatches().get(i).getTournament().getName());
+                                       }
+                                       else{
+                                           System.out.println(p.getMatches().get(i).getDate().getTime() + " : Mauvais resultat :" + p.getName() + "(" +p.getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") a perdu contre " + p.getMatches().get(i).getP2().getName() + " (" + p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getAtpRanking() + ") à " + p.getMatches().get(i).getTournament().getName());
+                                       
+                                       }
+                                  }
+                                }
+                            }
+                    }
+                    }
         }
-       
         }
-        
                         /*** MIXED ***/
                                 
             
@@ -112,19 +145,19 @@ public class Ringo {
                 
             }
         }
-            System.out.println("Il y a " + compteur + " joueurs a plus de 10 matchs sur " + simulationData.getPlayers().size());
-       
-        }
-        /**                 TEST FONCTIONS F,G,H   **/
+            
+        
+        
         
         
     }
     
-    
+}
+        
     public static void main(String[] args){
         
-        // simpleTest();
-        testRatio();
+         simpleTest();
+        //testRatio();
         
     }
   
