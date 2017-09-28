@@ -41,8 +41,9 @@ public class Ringo {
                 if (bestGoodResult<goodResult){
                     bestF = F;
                     bestG = G;
+                    bestGoodResult = goodResult;
                 }
-                System.out.println("Avec F = " + F + " et G = " + G + " On obtient " + goodResult + " bons résultats et " + badResult + " mauvais résultats");
+                System.out.println("Avec F = " + F + " et G = " + G + " On obtient " + bestGoodResult + " bons résultats et " + badResult + " mauvais résultats");
             }
             
         }
