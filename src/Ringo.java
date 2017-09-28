@@ -43,11 +43,11 @@ public class Ringo {
                     bestG = G;
                     bestGoodResult = goodResult;
                 }
-                System.out.println("Avec F = " + F + " et G = " + G + " On obtient " + bestGoodResult + " bons résultats et " + badResult + " mauvais résultats");
+                System.out.println("Avec F = " + F + " et G = " + G + " On obtient " + goodResult + " bons résultats et " + badResult + " mauvais résultats");
             }
             
         }
-            System.out.println("Meilleur combinaison : (F,G) = (" + bestF + "," + bestG + ") = " + goodResult + " sur " + (goodResult + badResult) + " matchs");
+            System.out.println("Meilleur combinaison : (F,G) = (" + bestF + "," + bestG + ") = " + bestGoodResult + " sur " + (goodResult + badResult) + " matchs");
     }
     
     public static void simpleTest(){
