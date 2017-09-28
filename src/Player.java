@@ -145,7 +145,7 @@ public class Player {
 
         }
                 
-        private static double healthFunction(int health){
+        public static double healthFunction(int health){
                 return 0.85+0.10*Math.atan(0.03*(health-50));
         }
         

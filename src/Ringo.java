@@ -27,9 +27,9 @@ public class Ringo {
                 SimulationData simulationData = dataReader.getSimulationData(F,G);
                 for(Player p : simulationData.getPlayers()){
                     
-                    if (p.getMatches().size() > 10 ){ //Wait for ranking to set a correct value
-                        for (int i = 10;i<p.getMatches().size();i++){
-                            if (p.getMatches().get(i).getP2().getStateMap().size() >= 10){
+                    if (p.getMatches().size() > 30 ){ //Wait for ranking to set a correct value
+                        for (int i = 30;i<p.getMatches().size();i++){
+                            if (p.getMatches().get(i).getP2().getStateMap().size() >= 30){
                                 int pos = 0; //Does the oppenent already play 10 matches?
                                 for (Calendar key : p.getMatches().get(i).getP2().getStateMap().keySet()) {
 
@@ -39,8 +39,8 @@ public class Ringo {
                                     }
                                 }
 
-                                if (pos>10){
-                                    if ( (p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking() >  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking())) {
+                                if (pos>30){
+                                    if ( (p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(p.getMatches().get(i).getDate()).getHealth()) >  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getHealth())) || (!p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(p.getMatches().get(i).getDate()).getHealth()) <  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking()*Player.healthFunction(p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getHealth())) ) {
                                        goodResult += 1;
                                    }
                                    else{
