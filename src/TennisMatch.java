@@ -96,39 +96,7 @@ public class TennisMatch {
                     return ranking1 - ranking2;
                 }
                 
-                public static double f(double x) {
-                    return 1000*Math.exp(x/(60000));
-                }
-                public static double g(int wonGames, int lostGames,int setNumbers, double x) {
-                    return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4) + h(x);
-                }
                 
-                private static double h(double x) {
-                    if (x >= 0)
-                        return 1200*Math.log(x/20000 + 1);
-                    else
-                        return -1200*Math.log(-x/20000 + 1);
-                }
-                
-                private double rankingFuncWin(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
-                    if (this.score1.size() != this.score2.size()){ //If a player abandoned, the result does not matter
-                        return coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
-                    }
-                    else{
-                        return coeffF*f(diffWeights) + coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
-                    }
-                    
-                }
-                
-                private double rankingFuncLoss(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
-                    if (this.score1.size() != this.score2.size()){ //If a player abandoned, the result does not matter
-                        return - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
-                    }
-                    else{
-                        return -coeffF*f(-diffWeights) - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
-                    }
-                    
-                }
                 
                 public int getGamesNb(){
                     return this.score1.stream().mapToInt(Integer::intValue).sum() + 
@@ -147,43 +115,9 @@ public class TennisMatch {
                     return this.score2.stream().mapToInt(Integer::intValue).sum();
                 }
                
-                private static double healthFunction(int health){
-                    return 0.85+0.10*Math.atan(0.03*(health-50));
-                }
+                
        
-                public void updateRanking(int atpRanking1, int atpRanking2, int coeffF, int coeffG) {
-                    int setNb = getSetNb();
-                    int gamesNb = getGamesNb();
-                    int health1 = Math.min(this.player1.getHealth()-gamesNb + Player.daysBetween(this.date,this.player1.getStateMap().lastKey())*10,100);
-                    int health2 = Math.min(this.player2.getHealth()-gamesNb + Player.daysBetween(this.date,this.player2.getStateMap().lastKey())*10,100);
-                    double ranking1 = this.player1.getRanking();
-                    double ranking2 = this.player2.getRanking();
-                    double diffWeights = ranking2*healthFunction(health2) - ranking1*healthFunction(health1);
-                    double newRanking1;
-                    double newRanking2;
-                    if (setNb == 0){ //No match, one player abandoned before start
-                        PlayerState p1 = new PlayerState(ranking1, this.player1.getHealth(), atpRanking1);
-                        PlayerState p2 = new PlayerState(ranking2, this.player2.getHealth(), atpRanking2);
-                        this.player1.getStateMap().put(this.date,p1);
-                        this.player2.getStateMap().put(this.date,p2);
-                    }
-                    else{
-                        if (this.player1.equals(getWinner())) {
-                            newRanking1 = ranking1 + rankingFuncWin(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
-                            newRanking2 = ranking2 + rankingFuncLoss(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights, coeffF, coeffG);
-                        }   
-                        else {
-                            newRanking1 = ranking1 + rankingFuncLoss(getWonGamesPlayer1(), getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
-                            newRanking2 = ranking2 + rankingFuncWin(getWonGamesPlayer2(), getWonGamesPlayer1(), setNb, -diffWeights, coeffF, coeffG);
-                        }
-                         PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking1);
-                         PlayerState p2 = new PlayerState(newRanking2,health2, atpRanking2);
-                         this.player1.getStateMap().put(this.date,p1);
-                         this.player2.getStateMap().put(this.date,p2);
-                    }
-                    
-                   
-                }
+               
                 
                 public void updateStates() {
                     

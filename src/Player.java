@@ -19,7 +19,7 @@ public class Player {
                 /* Classic initialization */
                  PlayerState initialState = new PlayerState(50000, 100, atpRanking);
                 /* Initializtion related to ranking */
-                //    PlayerState initialState = new PlayerState(75000- Math.min(atpRanking,200)*250,100,atpRanking);
+                 //   PlayerState initialState = new PlayerState(75000- Math.min(atpRanking,200)*250,100,atpRanking);
 		this.stateMap = new TreeMap<>();
                 this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
@@ -68,6 +68,8 @@ public class Player {
         }
         
         
+        
+        
        
         /**
          * number of days elapsed between two calendars
@@ -108,8 +110,85 @@ public class Player {
 	public String getName(){
 		return this.name;
 	}
+        public static double f(double x) {
+                    return 1000*Math.exp(x/(60000));
+                }
+        
+        public static double g(int wonGames, int lostGames,int setNumbers, double x) {
+            return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4) + h(x);
+        }
 
+        private static double h(double x) {
+            if (x >= 0)
+                return 1200*Math.log(x/20000 + 1);
+            else
+                return -1200*Math.log(-x/20000 + 1);
+        }
 
+        private double rankingFuncWin(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
+            if (setNumbers % 2 == 1){ //If a player abandoned, the result does not matter
+                return coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
+            }
+            else{
+                return coeffF*f(diffWeights) + coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
+            }
+
+        }
+
+        private double rankingFuncLoss(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
+            if (setNumbers % 2 == 1){ //If a player abandoned, the result does not matter
+                return - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
+            }
+            else{
+                return -coeffF*f(-diffWeights) - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
+            }
+
+        }
+                
+        private static double healthFunction(int health){
+                return 0.85+0.10*Math.atan(0.03*(health-50));
+        }
+        
+         public void updateRanking(Calendar matchDate, int atpRanking, int coeffF, int coeffG) {
+             
+             if (!this.matches.isEmpty()){
+                    
+                    TennisMatch lastMatch = this.matches.get(this.matches.size()-1);
+                    int setNb = lastMatch.getSetNb();
+                    int gamesNb = lastMatch.getGamesNb();
+                    int health1 = Math.min(this.getHealth()-gamesNb + Player.daysBetween(matchDate,lastMatch.getDate())*10,100);
+                    int health2 = Math.min(lastMatch.getP2().getHealth()-gamesNb + Player.daysBetween(matchDate,lastMatch.getDate())*10,100);
+                    double ranking1 = getRanking();
+                    double ranking2 = lastMatch.getP2().getRanking();
+                    double diffWeights = ranking2*healthFunction(health2) - ranking1*healthFunction(health1);
+                    double newRanking1;
+                    double newRanking2;
+                    if (setNb == 0){ //No match, one player abandoned before start
+                        PlayerState p1 = new PlayerState(ranking1, getHealth(), atpRanking);
+                        this.stateMap.put(matchDate,p1);
+                    }
+                    else{
+                        if (this.equals(lastMatch.getWinner())) {
+                            newRanking1 = ranking1 + rankingFuncWin(lastMatch.getWonGamesPlayer1(), lastMatch.getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
+                          }   
+                        else {
+                            newRanking1 = ranking1 + rankingFuncLoss(lastMatch.getWonGamesPlayer1(), lastMatch.getWonGamesPlayer2(), setNb, diffWeights, coeffF, coeffG);
+                          }
+                         PlayerState p1 = new PlayerState(newRanking1,health1, atpRanking);
+                         this.stateMap.put(matchDate,p1);
+                    }
+                    
+                   
+                }
+             else{
+                 PlayerState initialState = new PlayerState(50000, 100, atpRanking);
+		this.stateMap = new TreeMap<>();
+                this.stateMap.put(matchDate, initialState);
+             }
+         }
+        
+        
+        
 	
 
 }

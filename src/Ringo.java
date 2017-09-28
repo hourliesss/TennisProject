@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,18 +25,31 @@ public class Ringo {
             for (int G = 1; G < 10;G++){
                 badResult = 0; goodResult = 0;
                 SimulationData simulationData = dataReader.getSimulationData(F,G);
-                for(TennisMatch m : simulationData.getMatches()){
-                  // System.out.println(goodResult+badResult);
-                    if ((m.getP1().getMatches().size()  > 15) && (m.getP2().getMatches().size()  > 15) ){
-                    //     System.out.println(m.getP1().getName() + m.getP2().getName() + m.getDate().getTime());
-                        if ( (m.getWinner().equals(m.getP1())) && (m.getP1().getStateMap().get(m.getDate()).getRanking() > m.getP2().getStateMap().get(m.getDate()).getRanking()) ) {
-                            goodResult += 1;
-                        }
-                        else{
-                            badResult += 1;
-                        }
-                    }
+                for(Player p : simulationData.getPlayers()){
                     
+                    if (p.getMatches().size() > 10 ){ //Wait for ranking to set a correct value
+                        for (int i = 10;i<p.getMatches().size();i++){
+                            if (p.getMatches().get(i).getP2().getStateMap().size() >= 10){
+                                int pos = 0; //Does the oppenent already play 10 matches?
+                                for (Calendar key : p.getMatches().get(i).getP2().getStateMap().keySet()) {
+
+                                    if(key.before(p.getMatches().get(i).getDate())){
+                                        pos++;
+                                        
+                                    }
+                                }
+
+                                if (pos>10){
+                                    if ( (p.getMatches().get(i).getWinner().equals(p)) && (p.getStateMap().get(p.getMatches().get(i).getDate()).getRanking() >  p.getMatches().get(i).getP2().getStateMap().get(p.getMatches().get(i).getDate()).getRanking())) {
+                                       goodResult += 1;
+                                   }
+                                   else{
+                                       badResult += 1;
+                                   }
+                                }
+                            }
+                    }
+                    }
                 }
                 
                 if (bestGoodResult<goodResult){
@@ -59,8 +73,8 @@ public class Ringo {
         /*
                             *** Test One Player ranking's evolution
                                                                */
-       if (false){
-           Iterator it = simulationData.getPlayerByName("Yassine Idmbarek").getStateMap().entrySet().iterator();
+       if (true){
+           Iterator it = simulationData.getPlayerByName("Rafael Nadal").getStateMap().entrySet().iterator();
            while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 System.out.println(pair.getValue().toString());
@@ -84,7 +98,7 @@ public class Ringo {
                         /*** MIXED ***/
                                 
             
-        if (true){
+        if (false){
             int compteur = 0;
             for (Player p : simulationData.getPlayers()){
                 if (p.getMatches().size() >= 10){

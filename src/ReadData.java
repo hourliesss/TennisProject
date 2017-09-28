@@ -79,12 +79,15 @@ public class ReadData {
                     simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[3]);
                    
                     if (!values[5].equals("x")){
-                        simulationData.addMatch(new TennisMatch(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),firstCal,stageNumber));
+                        
+                        simulationData.getPlayerByName(values[3]).updateRanking(firstCal,Integer.parseInt(values[4]), coeffF, coeffG);
+                        simulationData.getPlayerByName(values[5]).updateRanking(firstCal,Integer.parseInt(values[6]), coeffF, coeffG);
+                        
                         TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),firstCal,stageNumber);
-                        m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]), coeffF, coeffG);
                         simulationData.getPlayerByName(values[3]).addMatch(m);
+                        
+                        m = new TennisMatch(simulationData.getPlayerByName(values[5]), simulationData.getPlayerByName(values[3]),addScore(values,2),addScore(values,1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),firstCal,stageNumber);
                         simulationData.getPlayerByName(values[5]).addMatch(m);
-                        simulationData.getMatches().add(m);
                     }
                     
                     
@@ -111,12 +114,16 @@ public class ReadData {
                             simulationData.getTournaments().get(simulationData.getTournaments().size() -1).addPlayer(simulationData.getPlayers(),values[5]);
                         }
                          if (!values[5].equals("x")){
-                             simulationData.addMatch(new TennisMatch(simulationData.getTournaments().get(simulationData.getTournaments().size() -1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().get(simulationData.getTournaments().get(simulationData.getTournaments().size()-1).getParticipants().size()-2),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber));
-                             TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
-                             m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]), coeffF, coeffG);
-                             simulationData.getPlayerByName(values[3]).addMatch(m);
-                             simulationData.getPlayerByName(values[5]).addMatch(m);
-                             simulationData.getMatches().add(m);
+                           
+                            simulationData.getPlayerByName(values[3]).updateRanking(cal,Integer.parseInt(values[4]), coeffF, coeffG);
+                            simulationData.getPlayerByName(values[5]).updateRanking(cal,Integer.parseInt(values[6]),coeffF, coeffG);
+                            
+                            TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
+                            simulationData.getPlayerByName(values[3]).addMatch(m);
+                            
+                            m = new TennisMatch(simulationData.getPlayerByName(values[5]), simulationData.getPlayerByName(values[3]),addScore(values,2),addScore(values,1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
+                            simulationData.getPlayerByName(values[5]).addMatch(m);
+                        
                          }
                     
                     }
@@ -132,10 +139,12 @@ public class ReadData {
                         
                         }
                         simulationData.getTournaments().get(simulationData.getTournaments().size() -1).setStageNumber(stageNumber);
+                        
+                        simulationData.getPlayerByName(values[3]).updateRanking(cal,Integer.parseInt(values[4]), coeffF, coeffG);
+                        simulationData.getPlayerByName(values[5]).updateRanking(cal,Integer.parseInt(values[6]),coeffF, coeffG);
                         TennisMatch m = new TennisMatch(simulationData.getPlayerByName(values[3]), simulationData.getPlayerByName(values[5]),addScore(values,1),addScore(values,2),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
-                        m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]), coeffF, coeffG);
-                        simulationData.addMatch(m);
                         simulationData.getPlayerByName(values[3]).addMatch(m);
+                        m = new TennisMatch(simulationData.getPlayerByName(values[5]), simulationData.getPlayerByName(values[3]),addScore(values,2),addScore(values,1),simulationData.getTournaments().get(simulationData.getTournaments().size()-1),cal,stageNumber);
                         simulationData.getPlayerByName(values[5]).addMatch(m);
                         
                     }
