@@ -61,7 +61,7 @@ public class Ringo {
             }
             
         }
-            System.out.println("Meilleur combinaison : (F,G) = (" + bestF + "," + bestG + ") = " + bestGoodResult + " sur " + (goodResult + badResult) + " matchs");
+            System.out.println("Meilleur combinaison : (F,G) = (" + bestF + "," + bestG + ") = " + bestGoodResult/2 + " sur " + (goodResult + badResult)/2 + " matchs");
     }
     
     public static void simpleTest(){
