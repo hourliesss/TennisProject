@@ -139,6 +139,9 @@ public class TennisMatch {
                     return this.score2.stream().mapToInt(Integer::intValue).sum();
                 }
                
+                private static double healthFunction(int health){
+                    return 0.85+0.10*Math.atan(0.03*(health-50));
+                }
        
                 public void updateRanking(int atpRanking1, int atpRanking2) {
                     int setNb = getSetNb();
@@ -147,9 +150,7 @@ public class TennisMatch {
                     int health2 = Math.min(this.player2.getHealth()-gamesNb + Player.daysBetween(this.date,this.player2.getStateMap().lastKey())*10,100);
                     double ranking1 = this.player1.getRanking();
                     double ranking2 = this.player2.getRanking();
-                    //TO DO Fonction for impact of Health not Linear
-                    //double diffWeights = ranking2*((double)health2/100) - ranking1*(double)(health1)/100;
-                    double diffWeights = ranking2 - ranking1;
+                    double diffWeights = ranking2*healthFunction(health2) - ranking1*healthFunction(health1);
                     double newRanking1;
                     double newRanking2;
                     if (setNb == 0){ //No match, one player abandoned before start

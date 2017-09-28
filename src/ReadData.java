@@ -135,7 +135,7 @@ public class ReadData {
                         m.updateRanking(Integer.parseInt(values[4]),Integer.parseInt(values[6]));
                         simulationData.getPlayerByName(values[3]).addMatch(m);
                         simulationData.getPlayerByName(values[5]).addMatch(m);
-                        System.out.println(values[1] + " " + values[3] + " " + values[5]);
+                        
                     }
                     }
                 }
