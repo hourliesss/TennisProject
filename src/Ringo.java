@@ -270,12 +270,26 @@ public class Ringo {
      return goodResults.stream().mapToInt(Integer::intValue).sum(); 
     }
     
-    public static void combinedTest(){
+    public void combinedTest(int partition){
         int bestF = 0; int bestG = 0; 
-        int bestGoodResult = 0; int goodResult;
-        
-        for (int F = 1; F < 10 ; F++){
-            for (int G = 1; G < 10;G++){
+
+        int bestGoodResult = 0; int goodResult; 
+        if (partition != -1) {
+             for (int F = partition; F < partition +1; F++){
+                  for (int G = 1; G < 10;G++){
+                    System.out.println("F = " + F + " , G = " + G);
+                    goodResult = healthTest(F,G);
+                    if (goodResult > bestGoodResult){
+                        bestGoodResult = goodResult;
+                       bestF = F;
+                       bestG = G;
+                    }
+              }
+          }
+        }
+        else {
+            for (int F = 1; F < 10; F++){
+             for (int G = 1; G < 10; G++){
                 System.out.println("F = " + F + " , G = " + G);
                 goodResult = healthTest(F,G);
                 if (goodResult > bestGoodResult){
@@ -284,6 +298,7 @@ public class Ringo {
                     bestG = G;
                 }
             }
+        }
         }
         int matchN = 0;
         File f = new File("data/tennis2.csv");
@@ -429,8 +444,9 @@ public class Ringo {
         
         // simpleTest();
        // testRatio();
-        combinedTest();
+       // combinedTest();
         
     }
+
   
 }
