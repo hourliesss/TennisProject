@@ -33,10 +33,8 @@ public class ReadData {
     
     public SimulationData getSimulationData(int coeffF, int coeffG, int coeffHealth){
         
-        SimulationData simulationData = new SimulationData();
+      SimulationData simulationData = new SimulationData();
         
-        
-     
       try {
          
          InputStream ips = new FileInputStream(f);
@@ -46,11 +44,9 @@ public class ReadData {
          DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
          String line = null;
          
-         
          String tournamentsName = "Cassius and Simon Tournament(coming soon)";
 	 int stageNumber = 0;
          String round = null;
-         boolean bool;
          
          while ((line=br.readLine())!=null){
                 String values[] = line.split("\t");
@@ -162,29 +158,22 @@ public class ReadData {
         catch (IOException e){
                 System.out.println(e.toString());
         }
-        catch (Exception e){
+        catch (ParseException | NumberFormatException e){
                 System.out.println(e.toString());
         }
       
-        
-
-
-
-
         return simulationData;
-        
     }
     
     
     
     
     public static LinkedList<Integer> addScore(String values[],int i){
-        LinkedList<Integer> score = new LinkedList<Integer>();
+        LinkedList<Integer> score = new LinkedList<>();
         if (i == 1){
             for (int j=7;j<13;j++){
                 if ( (!values[j].equals("x")) && (!values[j].equals("A")) ){ 
-                    score.add(Integer.parseInt(values[j]));   
-                    
+                    score.add(Integer.parseInt(values[j]));  
                 }
                 if (values[j].equals("A")){
                     score.add(0);
@@ -204,11 +193,7 @@ public class ReadData {
             }
             
         }
-    
-    
     return score;
-    
-    
 }
     
     

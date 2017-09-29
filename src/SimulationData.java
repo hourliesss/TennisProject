@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.stream.Collectors;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,14 +13,14 @@ import java.util.HashMap;
  */
 public class SimulationData {
     
-    private ArrayList<Tournament> tournaments;
-    private ArrayList<Player> players;
-    private ArrayList<TennisMatch> matches;
+    private final ArrayList<Tournament> tournaments;
+    private final ArrayList<Player> players;
+    private final ArrayList<TennisMatch> matches;
     
     public SimulationData(){
-        this.tournaments = new ArrayList<Tournament>();
-        this.players = new ArrayList<Player>();
-        this.matches = new ArrayList<TennisMatch>();
+        this.tournaments = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
     }
     
     public ArrayList<Tournament> getTournaments(){
@@ -37,37 +36,24 @@ public class SimulationData {
     }
     
     public Player getPlayerByName(String name){
-            Player newPlayer = null;
-                for(Player p : this.players){
-                    if ((p.getName()).equals(name)){
-                        newPlayer = p;
-                    }
-            }
-                return newPlayer;
+            return this.players.stream().filter(p -> p.getName().equals(name)).findFirst().orElse(null);
         }
-    
     
     public void addTournament(Tournament tournament){
         this.tournaments.add(tournament);
     }
+    
     public void addPlayer(String name, int atpRanking){
         boolean bool = false;
-        
         if (!name.equals("")){
-            
             for(Player p : players){
                 if ((p.getName()).equals(name)){
                     bool = true;
                 }
             }
-            
-            if (bool == false){
-                this.players.add(new Player(name,atpRanking));
-                
-            }
+            if (!bool)
+              this.players.add(new Player(name,atpRanking));
         }
-    
-        
     }
     
     public void addMatch(TennisMatch match){

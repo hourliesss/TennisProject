@@ -28,6 +28,7 @@ public class Player {
             return this.birthDate;
         }
         
+        @Override
         public boolean equals(Object o) {
             boolean inst = o instanceof Player;
             if (inst) {
@@ -92,9 +93,7 @@ public class Player {
             if (!this.matches.isEmpty()) {
                 Calendar lastDate = this.matches.get(this.matches.size() - 1).getDate();
                 int health = daysBetween(today, lastDate)*10;
-                for (TennisMatch m : this.matches) {
-                    health -= m.getGamesNb()/2;
-                }
+                health = this.matches.stream().map((m) -> m.getGamesNb()/2).reduce(health, (accumulator, _item) -> accumulator - _item);
                 if (health < 0)
                     health = 0;
                 this.getState().setHealth(Math.min(health, 100));
@@ -102,7 +101,7 @@ public class Player {
         }
         
        
-        
+        @Override
 	public String toString(){
                 Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();
                 double currentRanking = currentEntry.getValue().getRanking();
@@ -113,9 +112,10 @@ public class Player {
 	public String getName(){
 		return this.name;
 	}
+        
         public static double f(double x) {
                     return 1000*Math.exp(x/(60000));
-                }
+        }
         
         public static double g(int wonGames, int lostGames,int setNumbers, double x) {
             return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4) + h(x);

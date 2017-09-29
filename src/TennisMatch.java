@@ -3,13 +3,13 @@ import java.util.Calendar;
 
 public class TennisMatch {
 
-		private Player player1;
-		private Player player2;
-		private LinkedList<Integer> score1;
-		private LinkedList<Integer> score2;
-		private Tournament tournament;
-		private Calendar date;
-		private int stage;
+		private final Player player1;
+		private final Player player2;
+		private final LinkedList<Integer> score1;
+		private final LinkedList<Integer> score2;
+		private final Tournament tournament;
+		private final Calendar date;
+		private final int stage;
 
 		public TennisMatch(Player player1, Player player2, LinkedList<Integer> score1, LinkedList<Integer> score2, Tournament tournament, Calendar date, int stage){
 			this.player1 = player1;
@@ -29,6 +29,7 @@ public class TennisMatch {
                     return this.player2;
                 }
                 
+                @Override
 		public String toString(){
 			return "Ce match qui s'est déroulé le " + this.date.getTime() + " à " 
                                 + this.tournament.getName() + " lors du " + this.stage + 
@@ -100,8 +101,6 @@ public class TennisMatch {
                     return ranking1 - ranking2;
                 }
                 
-                
-                
                 public int getGamesNb(){
                     return this.score1.stream().mapToInt(Integer::intValue).sum() + 
                             this.score2.stream().mapToInt(Integer::intValue).sum();
@@ -117,23 +116,6 @@ public class TennisMatch {
                  
                  public int getWonGamesPlayer2(){
                     return this.score2.stream().mapToInt(Integer::intValue).sum();
-                }
-               
-                
-       
-               
-                
-                public void updateStates() {
-                    
-                    /*int newHealth1 = health1 - gamesNb;
-                    int newHealth2 = health2 - gamesNb;*/
-                    
-                    
-                    
-                    
-                    
-                   //this.player1.updateState(this.date, new PlayerState(newRanking1, newHealth1));
-                   //this.player2.updateState(this.date, new PlayerState(newRanking2, newHealth2));
                 }
 
 }
