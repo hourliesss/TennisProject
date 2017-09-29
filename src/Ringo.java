@@ -165,7 +165,7 @@ public class Ringo {
         for (int j = 0;j<players.size();j++){
             Player p = players.get(j);
             System.out.println("Nous sommes au " + j + " eme joueur sur " + players.size());
-            for (int i = 2; i<2;i+=2){
+            for (int i = 2; i<20;i+=2){
                 goodResult = 0;
                 int compt = 0;
                  for (TennisMatch m : p.getMatches()){
