@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -173,8 +174,10 @@ public class Ringo {
             for (int i = 1; i<20;i++){
                 goodResult = 0;
                 int compt = 0;
+                p.newStateMap();
                  for (TennisMatch m : p.getMatches()){
-                        p.updateRanking(m.getDate(), 100, coeffF, coeffG, i);
+                      
+                      p.updateRanking(m.getDate(), 100, coeffF, coeffG, i);
                         if (compt<10){
                             compt++;
                         }
@@ -192,8 +195,12 @@ public class Ringo {
                                     if (pos>10){
                                         if ( ( (m.getWinner().equals(p)) && (p.getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(m.getDate()).getHealth()) >  m.getP2().getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(m.getP2().getStateMap().get(m.getDate()).getHealth()))) || ( (!m.getWinner().equals(p)) && (p.getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(m.getDate()).getHealth()) <  m.getP2().getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(m.getP2().getStateMap().get(m.getDate()).getHealth()))) ) {
                                                   goodResult++;
-                                        }
+                                                  
+                                        
+                                     }
                                     }
+                                   
+                                    
 
                                 }   
                             }
@@ -206,6 +213,56 @@ public class Ringo {
            }
         
         }
+        /*
+         for (int j = 0;j<players.size();j++){
+            Player p = players.get(j);
+             goodResult = 0;
+                int compt = 0;
+                 for (TennisMatch m : p.getMatches()){
+                        if (compt<10){
+                            compt++;
+                        }
+                        else{
+                                 if (m.getP2().getStateMap().size() >= 10){
+                                    int pos = 0; //Does the oppenent already play 10 matches?
+                                    for (Calendar key : m.getP2().getStateMap().keySet()) {
+
+                                        if(key.before(m.getDate())){
+                                            pos++;
+
+                                        }
+                                    }
+
+                                    if (pos>10){
+                                        if ( ( (m.getWinner().equals(p)) && (p.getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(m.getDate()).getHealth()) >  m.getP2().getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(m.getP2().getStateMap().get(m.getDate()).getHealth()))) || ( (!m.getWinner().equals(p)) && (p.getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(p.getStateMap().get(m.getDate()).getHealth()) <  m.getP2().getStateMap().get(m.getDate()).getRanking()*Player.healthFunction(m.getP2().getStateMap().get(m.getDate()).getHealth()))) ) {
+                                                  goodResult++;
+                                               if(m.getWinner().equals(p)){
+                                                   System.out.println(m.getDate().getTime() + " : Bon resultat :" + p.getName() + "  a battu " + m.getP2().getName() + " à " + m.getTournament().getName());
+                                               }
+                                               else{
+                                                   System.out.println(m.getDate().getTime() + " : Bon resultat :" + p.getName() + " a perdu contre " + m.getP2().getName() + " à " + m.getTournament().getName());
+ }
+                                           }
+                                      else{
+                                         if(m.getWinner().equals(p)){
+                                            System.out.println(m.getDate().getTime() + " : Mauvais resultat :" + p.getName() + "  a battu " + m.getP2().getName() +" à " + m.getTournament().getName());
+                                        }
+                                        else{
+                                            System.out.println(m.getDate().getTime() + " : Mauvais resultat :" + p.getName() + " a perdu contre " + m.getP2().getName() +  " à " + m.getTournament().getName());
+
+                                        }     
+                                     }
+                                    }
+                                   
+                                    
+
+                                }   
+                            
+                    }
+                   
+               }
+          }
+         */
         System.out.println("A la fin on a : " + goodResults.stream().mapToInt(Integer::intValue).sum());
        
         
@@ -217,8 +274,8 @@ public class Ringo {
         int bestF = 0; int bestG = 0; 
         int bestGoodResult = 0; int goodResult;
         
-        for (int F = 0; F < 10 ; F++){
-            for (int G = 0; G < 10;G++){
+        for (int F = 1; F < 10 ; F++){
+            for (int G = 1; G < 10;G++){
                 System.out.println("F = " + F + " , G = " + G);
                 goodResult = healthTest(F,G);
                 if (goodResult > bestGoodResult){
@@ -268,13 +325,13 @@ public class Ringo {
         System.out.println("Let's play Tennis with Cassius and Simon ! ");
         File f = new File("data/tennis2.csv");
         ReadData dataReader = new ReadData(f);
-        SimulationData simulationData = dataReader.getSimulationData(5,1,10);
+        SimulationData simulationData = dataReader.getSimulationData(1,1,10);
                            
         /*
                             *** Test One Player ranking's evolution
                                                                */
-       if (false){
-           Iterator it = simulationData.getPlayerByName("Rafael Nadal").getStateMap().entrySet().iterator();
+       if (true){
+           Iterator it = simulationData.getPlayerByName("Marinko Matosevic").getStateMap().entrySet().iterator();
            while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 System.out.println(pair.getValue().toString());
@@ -287,7 +344,7 @@ public class Ringo {
         
                         *** All Players last ranking
                                                                */
-        if (true){
+        if (false){
             int count = 0; 
             ArrayList<Integer> matchsNumber = new ArrayList();
             ArrayList<Player> players = new ArrayList();
@@ -345,7 +402,7 @@ public class Ringo {
                         /*** MIXED ***/
                                 
             
-        if (false){
+        if (true){
             int compteur = 0;
             for (Player p : simulationData.getPlayers()){
                 if (p.getMatches().size() >= 10){
@@ -370,7 +427,7 @@ public class Ringo {
         
     public static void main(String[] args){
         
-         //simpleTest();
+        // simpleTest();
        // testRatio();
         combinedTest();
         

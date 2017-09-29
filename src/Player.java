@@ -17,9 +17,9 @@ public class Player {
 		this.birthDate = null;
 		this.matches = new ArrayList<>();
                 /* Classic initialization */
-                 PlayerState initialState = new PlayerState(50000, 100, atpRanking);
+                PlayerState initialState = new PlayerState(50000, 100, atpRanking);
                 /* Initializtion related to ranking */
-                 //   PlayerState initialState = new PlayerState(75000- Math.min(atpRanking,200)*250,100,atpRanking);
+              //    PlayerState initialState = new PlayerState(75000- Math.min(atpRanking,200)*250,100,atpRanking);
 		this.stateMap = new TreeMap<>();
                 this.stateMap.put(new GregorianCalendar(2010,1,1), initialState);
 	}
@@ -183,11 +183,7 @@ public class Player {
                     
                    
                 }
-             else{
-                 PlayerState initialState = new PlayerState(50000, 100, atpRanking);
-		this.stateMap = new TreeMap<>();
-                this.stateMap.put(matchDate, initialState);
-             }
+         
          }
         
         
