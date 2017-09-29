@@ -153,7 +153,7 @@ public class Ringo {
         // Setting Health coeff to each of these players at 2 
         ArrayList<Integer> healthCoeffs = new ArrayList();
         for (int i=0;i<players.size();i++){
-            healthCoeffs.add(i,1);
+            healthCoeffs.add(i,10);
         }
         for (int p = 0; p < players.size();p++){
             players.get(p).newStateMap();
@@ -165,11 +165,11 @@ public class Ringo {
         ArrayList<Integer> coeffsCopy = new ArrayList();
         
         while (!coeffsCopy.equals(healthCoeffs)){
-            coeffsCopy = healthCoeffs;
+            coeffsCopy = new ArrayList(healthCoeffs);
             for (int j = 0;j<players.size();j++){
             Player p = players.get(j);
-            System.out.println("Nous sommes au " + j + " eme joueur sur " + players.size());
-            for (int i = 1; i<10;i++){
+           // System.out.println("Nous sommes au " + j + " eme joueur sur " + players.size());
+            for (int i = 1; i<20;i++){
                 goodResult = 0;
                 int compt = 0;
                  for (TennisMatch m : p.getMatches()){
@@ -203,7 +203,8 @@ public class Ringo {
                    }
                }
            }
-        
+        System.out.println(coeffsCopy);
+            System.out.println(healthCoeffs);
         }
         System.out.println("A la fin on a : " + goodResults.stream().mapToInt(Integer::intValue).sum());
         System.out.println(healthCoeffs);
