@@ -117,33 +117,33 @@ public class Player {
                     return 1000*Math.exp(x/(60000));
         }
         
-        public static double g(int wonGames, int lostGames,int setNumbers, double x) {
-            return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4) + h(x);
+        public static double g(int wonGames, int lostGames,int setNumbers) {
+            return 1000*Math.atan(2*(wonGames- lostGames)/setNumbers-4);
         }
 
         private static double h(double x) {
             if (x >= 0)
-                return 1200*Math.log(x/20000 + 1);
+                return 2000*Math.log(x/20000 + 1);
             else
-                return -1200*Math.log(-x/20000 + 1);
+                return -2000*Math.log(-x/20000 + 1);
         }
 
         private double rankingFuncWin(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
             if (setNumbers % 2 == 1){ //If a player abandoned, the result does not matter
-                return coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
+                return coeffG*g(wonGames, lostGames, setNumbers) + h(diffWeights);
             }
             else{
-                return coeffF*f(diffWeights) + coeffG*g(wonGames, lostGames, setNumbers, diffWeights);
+                return coeffF*f(diffWeights) + coeffG*g(wonGames, lostGames, setNumbers)+h(diffWeights);
             }
 
         }
 
         private double rankingFuncLoss(int wonGames, int lostGames, int setNumbers, double diffWeights, int coeffF, int coeffG) {
             if (setNumbers % 2 == 1){ //If a player abandoned, the result does not matter
-                return - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
+                return - coeffG*g(lostGames, wonGames, setNumbers) + h(diffWeights);
             }
             else{
-                return -coeffF*f(-diffWeights) - coeffG*g(lostGames, wonGames, setNumbers, -diffWeights);
+                return -coeffF*f(-diffWeights) - coeffG*g(lostGames, wonGames, setNumbers) + h(diffWeights);
             }
 
         }
