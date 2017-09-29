@@ -104,10 +104,10 @@ public class Ringo {
     }
     
     
-    public static void healthTest(){
+    public static int healthTest(int coeffF, int coeffG){
         File f = new File("data/tennis2.csv");
         ReadData dataReader = new ReadData(f);
-        SimulationData simulationData = dataReader.getSimulationData(5,1,10);
+        SimulationData simulationData = dataReader.getSimulationData(coeffF,coeffG,10);
         ArrayList<Integer> matchsNumber = new ArrayList();
         ArrayList<Player> players = new ArrayList();
         int goodResult;
@@ -146,9 +146,9 @@ public class Ringo {
                      }
         }
                             
-        System.out.println(players);
-        System.out.println(matchsNumber);
-        System.out.println("good results :" + goodResults.stream().mapToInt(Integer::intValue).sum() + " sur " + matchsNumber.stream().mapToInt(Integer::intValue).sum());
+        //System.out.println(players);
+        //System.out.println(matchsNumber);
+        //System.out.println("good results :" + goodResults.stream().mapToInt(Integer::intValue).sum() + " sur " + matchsNumber.stream().mapToInt(Integer::intValue).sum());
         
         // Setting Health coeff to each of these players at 2 
         ArrayList<Integer> healthCoeffs = new ArrayList();
@@ -203,17 +203,31 @@ public class Ringo {
                    }
                }
            }
-        System.out.println(coeffsCopy);
-            System.out.println(healthCoeffs);
+        
         }
         System.out.println("A la fin on a : " + goodResults.stream().mapToInt(Integer::intValue).sum());
-        System.out.println(healthCoeffs);
+       
         
             
-        
+     return goodResults.stream().mapToInt(Integer::intValue).sum(); 
     }
     
-    
+    public static void combinedTest(){
+        int bestF = 0; int bestG = 0; 
+        int bestGoodResult = 0; int goodResult; 
+        for (int F = 1; F < 10 ; F++){
+            for (int G = 1; G < 10;G++){
+                System.out.println("F = " + F + " , G = " + G);
+                goodResult = healthTest(F,G);
+                if (goodResult > bestGoodResult){
+                    bestGoodResult = goodResult;
+                    bestF = F;
+                    bestG = G;
+                }
+            }
+        }
+        System.out.println("Resultat final : " + bestGoodResult + " avec (F,G) = (" + bestF + "," + bestG + ")");
+    }
     
     public static void simpleTest(){
         System.out.println("Let's play Tennis with Cassius and Simon ! ");
@@ -323,7 +337,7 @@ public class Ringo {
         
          //simpleTest();
        // testRatio();
-        healthTest();
+        combinedTest();
         
     }
   
