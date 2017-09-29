@@ -34,6 +34,7 @@ public class PlayerState {
                     this.health = health;
                 }
  
+                @Override
                 public String toString(){
                     return "ranking : " + this.ranking + " ; health : " + this.health + " ATP : " + atpRanking;
                 }
