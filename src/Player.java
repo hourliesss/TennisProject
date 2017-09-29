@@ -55,6 +55,11 @@ public class Player {
             return this.matches;
         }
         
+        public void newStateMap(){
+            this.stateMap = new TreeMap<>();
+            this.stateMap.put(new GregorianCalendar(2010,1,1), new PlayerState(50000,100,100));
+        }
+        
         
         public void addMatch(TennisMatch match){
             this.matches.add(match);
@@ -101,9 +106,7 @@ public class Player {
                 Entry<Calendar, PlayerState> currentEntry = this.stateMap.lastEntry();
                 double currentRanking = currentEntry.getValue().getRanking();
                 int currentHealth = currentEntry.getValue().getHealth();
-		return "Bonjour je m'appelle " + this.name +  
-                        ". Je suis né le " + this.birthDate +". Je suis à " + currentHealth
-                        + "% de ma condition physique et mon ranking est : " + currentRanking;
+		return this.name;
 	}
 
 	public String getName(){
@@ -149,14 +152,14 @@ public class Player {
                 return 0.85+0.10*Math.atan(0.03*(health-50));
         }
         
-         public void updateRanking(Calendar matchDate, int atpRanking, int coeffF, int coeffG) {
+         public void updateRanking(Calendar matchDate, int atpRanking, int coeffF, int coeffG, int coeffHealth) {
              
              if (!this.matches.isEmpty()){
                     
                     TennisMatch lastMatch = this.matches.get(this.matches.size()-1);
                     int setNb = lastMatch.getSetNb();
                     int gamesNb = lastMatch.getGamesNb();
-                    int health1 = Math.min(this.getHealth()-gamesNb + Player.daysBetween(matchDate,lastMatch.getDate())*10,100);
+                    int health1 = Math.min(this.getHealth()-gamesNb + Player.daysBetween(matchDate,lastMatch.getDate())*coeffHealth,100);
                     int health2 = Math.min(lastMatch.getP2().getHealth()-gamesNb + Player.daysBetween(matchDate,lastMatch.getDate())*10,100);
                     double ranking1 = getRanking();
                     double ranking2 = lastMatch.getP2().getRanking();
