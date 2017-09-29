@@ -58,7 +58,7 @@ public class Ringo {
         int bestF = 0; int bestG = 0; 
         int bestGoodResult = 0; 
         for (int F = 1; F < 10 ; F++){
-            for (int G = 1; G < 10;G++){
+            for (int G = 0; G < 10;G++){
                 badResult = 0; goodResult = 0;
                 SimulationData simulationData = dataReader.getSimulationData(F,G,10);
                 int count = 0;
@@ -116,6 +116,7 @@ public class Ringo {
         for (int i = 0; i< simulationData.getPlayers().size();i++){
                      Player p = simulationData.getPlayers().get(i);
                      if (p.getMatches().size() > 10 ){
+                        
                         goodResult = 0;
                         int compt = 0;
                         for (TennisMatch m : p.getMatches()){
@@ -173,7 +174,7 @@ public class Ringo {
                 goodResult = 0;
                 int compt = 0;
                  for (TennisMatch m : p.getMatches()){
-                        p.updateRanking(m.getDate(), 100, 5, 1, healthCoeffs.get(j));
+                        p.updateRanking(m.getDate(), 100, coeffF, coeffG, i);
                         if (compt<10){
                             compt++;
                         }
@@ -241,7 +242,40 @@ public class Ringo {
             }
         }
         }
-        System.out.println("Resultat final : " + bestGoodResult + " avec (F,G) = (" + bestF + "," + bestG + ")");
+        int matchN = 0;
+        File f = new File("data/tennis2.csv");
+        ReadData dataReader = new ReadData(f);
+        SimulationData simulationData = dataReader.getSimulationData(1,1,10);
+         for (Player p : simulationData.getPlayers()){
+                int compt = 0;
+                 for (TennisMatch m : p.getMatches()){
+                        if (compt<10){
+                            compt++;
+                        }
+                        else{
+                                 if (m.getP2().getStateMap().size() >= 10){
+                                    int pos = 0; //Does the oppenent already play 10 matches?
+                                    for (Calendar key : m.getP2().getStateMap().keySet()) {
+
+                                        if(key.before(m.getDate())){
+                                            pos++;
+
+                                        }
+                                    }
+
+                                    if (pos>10){
+                                        matchN++;
+                                    }
+
+                                }   
+                            }
+                    }
+                  
+               
+           }
+        
+        
+        System.out.println("Resultat final : " + bestGoodResult + "sur " + matchN + " avec (F,G) = (" + bestF + "," + bestG + ")");
     }
     
     public static void simpleTest(){
